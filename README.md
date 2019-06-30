@@ -1,3 +1,3 @@
 # Ba Sing Se
 
-Let's see where this goes
+Playing with a severless framework
