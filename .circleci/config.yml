@@ -1,35 +1,80 @@
 version: 2
 jobs:
+  checkout_code:
+    docker:
+      - image: circleci/ruby:2.5.3
+    working_directory: ~/ba-sing-se
+    steps:
+      - checkout
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/ba-sing-se
   build:
     docker:
       - image: circleci/ruby:2.5.3
-      # - image: circleci/postgres:latest
-
-    working_directory: ~/repo
-
+    working_directory: ~/ba-sing-se
     steps:
-      - checkout
-
       - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run:
-          name: install dependencies
-          command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: |
+          gem update --system
+          gem install bundler
+          bundle install --jobs=4 --retry=3 --path vendor/bundle
       - save_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
           paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
-      # Database setup
-      # - run: bundle exec rake db:create
-      # - run: bundle exec rake db:schema:load
-
+            - ~/ba-sing-se/vendor/bundle
+  tests:
+    docker:
+      - image: circleci/ruby:2.5.3
+      # - image: circleci/postgres:latest
+    working_directory: ~/ba-sing-se
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run: |
+          gem update --system
+          gem install bundler
+          bundle --path vendor/bundle
+      # - run: bundle exec rake db:create db:schema:load
       - run:
-          name: run tests
+          name: Run tests
           command: bundle exec rake
+  deploy:
+    machine:
+        enabled: true
+    working_directory: ~/ba-sing-se
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Deploy
+          command: |
+            gem update --system
+            gem install jets
+            jets deploy
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - checkout_code
+      - build:
+          requires:
+            - checkout_code
+      - tests:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - tests
+          filters:
+            branches:
+              only: master
