@@ -2,7 +2,7 @@ version: 2
 jobs:
   checkout_code:
     docker:
-      - image: circleci/ruby:2.5.3
+      - image: circleci/ruby:2.5.3-node
     working_directory: ~/ba-sing-se
     steps:
       - checkout
@@ -12,7 +12,7 @@ jobs:
             - ~/ba-sing-se
   build:
     docker:
-      - image: circleci/ruby:2.5.3
+      - image: circleci/ruby:2.5.3-node
     working_directory: ~/ba-sing-se
     steps:
       - restore_cache:
@@ -29,7 +29,7 @@ jobs:
             - ~/ba-sing-se/vendor/bundle
   tests:
     docker:
-      - image: circleci/ruby:2.5.3
+      - image: circleci/ruby:2.5.3-node
       # - image: circleci/postgres:latest
     working_directory: ~/ba-sing-se
     steps:
@@ -47,7 +47,7 @@ jobs:
           command: bundle exec rake
   deploy:
     docker:
-      - image: circleci/ruby:2.5.3
+      - image: circleci/ruby:2.5.3-node
     working_directory: ~/ba-sing-se
     steps:
       - restore_cache:
