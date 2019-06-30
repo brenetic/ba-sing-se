@@ -61,6 +61,7 @@ jobs:
             gem install bundler
             bundle install --jobs=4 --retry=3 --path vendor/bundle
             gem install jets
+            sudo apt-get update && sudo apt-get install rsync
             bundle exec jets deploy
 
 workflows:
