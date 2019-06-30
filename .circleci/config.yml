@@ -61,7 +61,7 @@ jobs:
             gem install bundler
             bundle install --jobs=4 --retry=3 --path vendor/bundle
             gem install jets
-            jets deploy
+            bundle exec jets deploy
 
 workflows:
   version: 2
