@@ -58,6 +58,7 @@ jobs:
           name: Deploy
           command: |
             gem update --system
+            gem install bundler
             gem install jets
             jets deploy
 
