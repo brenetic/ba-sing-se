@@ -16,11 +16,8 @@ jobs:
             sudo npm i -g serverless
             npm install
       - run:
-          name: Run tests
-          command: npm test --coverage
-      - run:
           name: Deploy
-          command: sls deploy -v --stage prod
+          command: npm run deploy
       - save_cache:
           paths:
             - node_modules

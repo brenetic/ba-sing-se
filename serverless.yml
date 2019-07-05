@@ -1,4 +1,5 @@
 service: ba-sing-se
+
 provider:
   name: aws
   region: eu-west-2
@@ -6,5 +7,16 @@ provider:
   stage: prod
 
 functions:
-  hello:
-    handler: handler.hello
+  nuxt:
+    handler: index.nuxt
+    events:
+      - http: ANY /
+      - http: ANY /{proxy+}
+
+plugins:
+  - serverless-apigw-binary
+
+custom:
+  apigwBinary:
+    types:
+      - '*/*'
