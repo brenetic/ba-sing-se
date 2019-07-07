@@ -5,13 +5,19 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "deploy": "nuxt build && sls deploy"
+    "generate": "nuxt generate",
+    "deploy": "npm run build && sls deploy",
+    "start-server": "npm run build && node app.js",
+    "start-sls": "npm run build && sls offline start"
   },
   "dependencies": {
     "axios": "^0.19.0",
-    "express": "^4.17.1",
-    "nuxt": "^2.8.1",
+    "nuxt-start": "^2.8.1",
     "serverless-apigw-binary": "^0.4.4",
     "serverless-http": "^2.0.2"
+  },
+  "devDependencies": {
+    "nuxt": "^2.8.1",
+    "serverless-offline": "^4.10.0"
   }
 }

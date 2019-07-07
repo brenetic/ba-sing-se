@@ -8,15 +8,8 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Ba Sing Se' }
     ]
   },
-  build: {
-    vendor: ['axios']
-  },
   srcDir: 'client/',
-  performance: {
-    gzip: false
-  },
-  router: {
-    base: `/`
-  },
-  dev: false
+  render: {
+    compressor: false
+  }
 }
