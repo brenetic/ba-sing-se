@@ -20,6 +20,6 @@
   },
   "devDependencies": {
     "nuxt": "^2.8.1",
-    "serverless-offline": "^4.10.0"
+    "serverless-offline": "^5.0.1"
   }
 }
