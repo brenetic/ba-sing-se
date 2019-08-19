@@ -16,7 +16,7 @@
     "normalize.css": "^8.0.1",
     "nuxt-start": "^2.8.1",
     "serverless-apigw-binary": "^0.4.4",
-    "serverless-http": "^2.0.2",
+    "serverless-http": "^2.2.0",
     "vuex": "^3.1.1"
   },
   "devDependencies": {
