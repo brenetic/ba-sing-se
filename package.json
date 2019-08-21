@@ -20,7 +20,7 @@
     "vuex": "^3.1.1"
   },
   "devDependencies": {
-    "nuxt": "^2.8.1",
+    "nuxt": "^2.9.1",
     "serverless-offline": "^5.0.1"
   }
 }
